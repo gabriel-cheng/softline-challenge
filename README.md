@@ -50,7 +50,7 @@ mvn spring-boot:run
 
 • Methods: [GET, POST, PATCH, DELETE]
 
-• POST/PUT body request example:
+• POST/PATCH body request example:
 {
     "code": 10,
     "description": "Lorem ipsum dolor sit amet.",
@@ -64,9 +64,9 @@ mvn spring-boot:run
 ```
 • Endpoint: http://localhost:8080/customers
 
-• Methods: [GET, POST, PUT, DELETE]
+• Methods: [GET, POST, PATCH, DELETE]
 
-• POST/PUT body request example:
+• POST/PATCH body request example:
 {
     "code": 10,
     "name": "John Doe",
