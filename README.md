@@ -14,10 +14,11 @@
 
 Antes de rodar o projeto, certifique-se de instalar:
 
-- ☕ **Java 17+**
-- 🌱 **Spring Boot**
-- 🗄️ **SQL Server**
-- 📦 **Maven**
+- ☕ **Java 17+** — [Download](https://www.oracle.com/java/technologies/downloads/)
+- 📦 **Maven** — [Download](https://maven.apache.org/download.cgi)
+- 🗄️ **SQL Server** — [Download](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+- 🛠️ **SQL Server Management Studio (SSMS)** — [Download](https://learn.microsoft.com/en-us/ssms/install/install)
+- 💻 **Git** — [Download](https://git-scm.com/downloads)
 
 ### ⚙️ Configuration
 
@@ -27,7 +28,16 @@ Antes de rodar o projeto, certifique-se de instalar:
 git clone http://github.com/gabriel-cheng/softline-challenge
 cd softline-challenge
 ```
-2. Rodando o projeto
+
+2. Criando o banco
+> Se ainda não criou, crie o Banco de Dados da aplicação no MySQL Server.
+
+3. Configurando o projeto
+> - Copie e cole o arquivo ```.env.example``` na raíz do projeto <br>
+> - Nomeie o arquivo copiado para ```.env``` <br>
+> - Informe a ```porta de conexão```, o ```nome```, o ```user``` e o ```password``` do banco da aplicação.
+
+4. Rodando o projeto
 ```bash
 mvn spring-boot:run
 ```
