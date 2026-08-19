@@ -8,17 +8,6 @@
 ## 🛣️ Route Models
 ![Tela do sistema](./docs/images/routes.png)
 
-## 🔐 Login Screen Models
-![Tela do sistema](./docs/images/initial-screen.png)
-
-## 📦 Product Screen Models
-![Tela do sistema](./docs/images/product1-screen.png)
-![Tela do sistema](./docs/images/product2-screen.png)
-
-## 👥 Customer Screen Models
-![Tela do sistema](./docs/images/customer1-screen.png)
-![Tela do sistema](./docs/images/customer2-screen.png)
-
 ## 🚀 How to Run This Project
 
 ### 📋 Requirements
