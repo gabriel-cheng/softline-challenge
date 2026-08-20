@@ -32,12 +32,12 @@ cd softline-challenge
 2. Criando o banco
 > Se ainda não criou, crie o Banco de Dados da aplicação no MySQL Server.
 
-3. Configurando o projeto
+3. Configurando o .env
 > - Copie e cole o arquivo ```.env.example``` na raíz do projeto <br>
 > - Nomeie o arquivo copiado para ```.env``` <br>
 > - Informe a ```porta de conexão```, o ```nome```, o ```user``` e o ```password``` do banco da aplicação.
 
-4. Configurando o projeto
+4. Configurando o settings.xml
 > - Copie e cole o arquivo ```settings.xml.example``` na raíz do projeto <br>
 > - Nomeie o arquivo copiado para ```settings.xml``` <br>
 > - Informe o ```DATABASE_PORT```, o ```DATABASE_PASSWORD```, e o ```DATABASE_USER``` do banco da aplicação.
