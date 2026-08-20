@@ -37,12 +37,30 @@ cd softline-challenge
 > - Nomeie o arquivo copiado para ```.env``` <br>
 > - Informe a ```porta de conexão```, o ```nome```, o ```user``` e o ```password``` do banco da aplicação.
 
+4. Configurando o projeto
+> - Copie e cole o arquivo ```settings.xml.example``` na raíz do projeto <br>
+> - Nomeie o arquivo copiado para ```settings.xml``` <br>
+> - Informe o ```DATABASE_PORT```, o ```DATABASE_PASSWORD```, e o ```DATABASE_USER``` do banco da aplicação.
+
 4. Rodando o projeto
 ```bash
 mvn spring-boot:run
 ```
 
 ## 🔑 Endpoints
+
+• To access ```users```, ex:
+```
+• Endpoint: http://localhost:8080/users
+
+• Methods: [GET, POST, PATCH, DELETE]
+
+• POST/PATCH body request example:
+{
+    "username": "gabriel@user",
+    "pass": "gabriel123",
+}
+```
 
 • To access ```products```, ex:
 ```
