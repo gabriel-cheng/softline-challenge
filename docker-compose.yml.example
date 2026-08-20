@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: ""
+      MSSQL_SA_PASSWORD: "YOUR_DATABASE_PASSWORD"
       MSSQL_PID: "Developer"
       TZ: "America/Sao_Paulo"
     ports:
