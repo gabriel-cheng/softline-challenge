@@ -1,0 +1,15 @@
+<settings>
+  <profiles>
+    <profile>
+      <id>db-credentials</id>
+      <properties>
+        <db.url>jdbc:sqlserver://localhost:DATABASE_PORT;databaseName=DATABASE_PASSWORD;encrypt=true;trustServerCertificate=true;</db.url>
+        <db.user>DATABASE_USER</db.user>
+        <db.password>DATABASE_PASSWORD</db.password>
+      </properties>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>db-credentials</activeProfile>
+  </activeProfiles>
+</settings>
