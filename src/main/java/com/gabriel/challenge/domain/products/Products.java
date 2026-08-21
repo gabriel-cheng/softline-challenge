@@ -17,21 +17,24 @@ public class Products {
 
     @Id
     @Column(name="code")
-    private int code;
+    private Integer code;
 
     private String description;
 
     private String bar_code;
 
     private float gross_weight;
-    
+
     private float net_weight;
+
+    @Column(name="user_id", nullable = false)
+    private String userId;
 
     public int getCode() {
         return this.code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -65,6 +68,14 @@ public class Products {
 
     public void setNetWeight(float net_weight) {
         this.net_weight = net_weight;
+    }
+
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Products(RequestProducts requestProducts) {

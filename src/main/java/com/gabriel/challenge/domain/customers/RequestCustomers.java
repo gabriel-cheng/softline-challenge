@@ -1,7 +1,7 @@
 package com.gabriel.challenge.domain.customers;
 
 public record RequestCustomers(
-    int code,
+    Integer code,
     String name,
     String nickname,
     String document,

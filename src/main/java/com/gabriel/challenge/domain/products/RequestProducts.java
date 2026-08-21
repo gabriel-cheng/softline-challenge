@@ -1,9 +1,9 @@
 package com.gabriel.challenge.domain.products;
 
 public record RequestProducts(
-    int code,
+    Integer code,
     String description,
     String bar_code,
-    float gross_weight,
-    float net_weight
+    Float gross_weight,
+    Float net_weight
 ) { }

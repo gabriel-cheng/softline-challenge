@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(of="code")
 public class Customers {
-    
+
     @Id
     @Column(name="code")
-    private int code;
+    private Integer code;
 
     private String name;
 
@@ -27,11 +27,14 @@ public class Customers {
 
     private String address;
 
-    public int getCode() {
+    @Column(name="user_id", nullable = false)
+    private String userId;
+
+    public Integer getCode() {
         return this.code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -50,7 +53,7 @@ public class Customers {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-    
+
     public String getDocument() {
         return this.document;
     }
@@ -58,13 +61,21 @@ public class Customers {
     public void setDocument(String document) {
         this.document = document;
     }
-    
+
     public String getAddress() {
         return this.address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Customers(RequestCustomers requestCustomers) {

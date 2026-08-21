@@ -1,5 +1,12 @@
 package com.gabriel.challenge.domain.users;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,15 +22,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of="usersId")
-public class Users {
+public class Users implements UserDetails {
 
     @Id @GeneratedValue(strategy=GenerationType.UUID)
     @Column(name="id")
     private String usersId;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
-    private String pass;
+    private String password;
 
     public String getUsersId() {
         return this.usersId;
@@ -41,17 +49,34 @@ public class Users {
         this.username = username;
     }
 
-    public String getPass() {
-        return this.pass;
+    public String getPassword() {
+        return this.password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPass(String password) {
+        this.password = password;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+    
+    @Override
+    public boolean isEnabled() { return true; }
 
     public Users(RequestUsers requestUsers) {
         this.username = requestUsers.username();
-        this.pass = requestUsers.pass();
+        this.password = requestUsers.password();
     }
 
 }

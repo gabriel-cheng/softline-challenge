@@ -1,7 +1,7 @@
 CREATE TABLE users(
-    id INT IDENTITY(1,1) PRIMARY KEY,
+    id VARCHAR(36) PRIMARY KEY,
     username VARCHAR(60) NOT NULL,
-    pass VARCHAR(100) NOT NULL
+    password VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE products(
