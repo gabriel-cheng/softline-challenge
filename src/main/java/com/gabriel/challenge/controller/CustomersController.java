@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.gabriel.challenge.domain.customers.Customers;
 import com.gabriel.challenge.domain.customers.CustomersRepository;
 import com.gabriel.challenge.domain.customers.RequestCustomers;
-import com.gabriel.challenge.domain.users.Users;
 
 @RestController
 @RequestMapping("/customers")
@@ -32,22 +30,20 @@ public class CustomersController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Customers>> getAllCustomers(@AuthenticationPrincipal Users currentUser) {
-        List<Customers> ownCustomers = customersRepository.findAllByUserId(currentUser.getUsersId());
+    public ResponseEntity<List<Customers>> getAllCustomers() {
+        List<Customers> allCustomers = customersRepository.findAll();
 
         return ResponseEntity.status(HttpStatus.OK)
-            .body(ownCustomers);
+            .body(allCustomers);
     }
 
     @PostMapping
     public ResponseEntity<String> registerNewCustomer(
         @RequestBody
         @Validated
-        RequestCustomers customer,
-        @AuthenticationPrincipal Users currentUser
+        RequestCustomers customer
     ) {
         Customers newCustomer = new Customers(customer);
-        newCustomer.setUserId(currentUser.getUsersId());
 
         customersRepository.save(newCustomer);
 
@@ -58,10 +54,9 @@ public class CustomersController {
     @PatchMapping("/{code}")
     public ResponseEntity<Customers> updateCustomer(
         @PathVariable int code,
-        @RequestBody @Validated RequestCustomers customer,
-        @AuthenticationPrincipal Users currentUser
+        @RequestBody @Validated RequestCustomers customer
     ) {
-        Customers customerFound = customersRepository.findByCodeAndUserId(code, currentUser.getUsersId())
+        Customers customerFound = customersRepository.findById(code)
             .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Customer not found!"
             ));
@@ -89,11 +84,8 @@ public class CustomersController {
     }
 
     @DeleteMapping("/{code}")
-    public ResponseEntity<String> deleteCustomer(
-        @PathVariable int code,
-        @AuthenticationPrincipal Users currentUser
-    ) {
-        Customers customerFound = customersRepository.findByCodeAndUserId(code, currentUser.getUsersId())
+    public ResponseEntity<String> deleteCustomer(@PathVariable int code) {
+        Customers customerFound = customersRepository.findById(code)
             .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Customer not found!"
             ));

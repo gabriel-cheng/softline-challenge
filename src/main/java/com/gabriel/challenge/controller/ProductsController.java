@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.gabriel.challenge.domain.products.Products;
 import com.gabriel.challenge.domain.products.ProductsRepository;
 import com.gabriel.challenge.domain.products.RequestProducts;
-import com.gabriel.challenge.domain.users.Users;
 
 @RestController
 @RequestMapping("/products")
@@ -32,22 +30,20 @@ public class ProductsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Products>> getAllProducts(@AuthenticationPrincipal Users currentUser) {
-        List<Products> ownProducts = productsRepository.findAllByUserId(currentUser.getUsersId());
+    public ResponseEntity<List<Products>> getAllProducts() {
+        List<Products> allProducts = productsRepository.findAll();
 
         return ResponseEntity.status(HttpStatus.OK)
-            .body(ownProducts);
+            .body(allProducts);
     }
 
     @PostMapping
     public ResponseEntity<String> registerNewProduct(
         @RequestBody
         @Validated
-        RequestProducts product,
-        @AuthenticationPrincipal Users currentUser
+        RequestProducts product
     ) {
         Products newProduct = new Products(product);
-        newProduct.setUserId(currentUser.getUsersId());
 
         productsRepository.save(newProduct);
 
@@ -58,10 +54,9 @@ public class ProductsController {
     @PatchMapping("/{code}")
     public ResponseEntity<Products> updateProduct(
         @PathVariable int code,
-        @RequestBody @Validated RequestProducts product,
-        @AuthenticationPrincipal Users currentUser
+        @RequestBody @Validated RequestProducts product
     ) {
-        Products productFound = productsRepository.findByCodeAndUserId(code, currentUser.getUsersId())
+        Products productFound = productsRepository.findById(code)
             .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Product not found!"
             ));
@@ -89,11 +84,8 @@ public class ProductsController {
     }
 
     @DeleteMapping("/{code}")
-    public ResponseEntity<String> deleteProduct(
-        @PathVariable int code,
-        @AuthenticationPrincipal Users currentUser
-    ) {
-        Products productFound = productsRepository.findByCodeAndUserId(code, currentUser.getUsersId())
+    public ResponseEntity<String> deleteProduct(@PathVariable int code) {
+        Products productFound = productsRepository.findById(code)
             .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Product not found!"
             ));
