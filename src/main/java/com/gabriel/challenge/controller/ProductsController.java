@@ -2,6 +2,7 @@ package com.gabriel.challenge.controller;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -43,9 +44,16 @@ public class ProductsController {
         @Validated
         RequestProducts product
     ) {
-        Products newProduct = new Products(product);
+        if(productsRepository.existsById(product.code())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Product code already in use!");
+        }
 
-        productsRepository.save(newProduct);
+        try {
+            Products newProduct = new Products(product);
+            productsRepository.save(newProduct);
+        } catch(DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Product bar code already in use!");
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED)
             .body("Product registered successfully!");
@@ -77,10 +85,13 @@ public class ProductsController {
             productFound.setNetWeight(product.net_weight());
         }
 
-        Products productUpdated = productsRepository.save(productFound);
-
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(productUpdated);
+        try {
+            Products productUpdated = productsRepository.save(productFound);
+            return ResponseEntity.status(HttpStatus.OK)
+                .body(productUpdated);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Product bar code already in use!");
+        }
     }
 
     @DeleteMapping("/{code}")

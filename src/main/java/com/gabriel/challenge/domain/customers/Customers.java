@@ -23,6 +23,7 @@ public class Customers {
 
     private String nickname;
 
+    @Column(unique = true, nullable = false)
     private String document;
 
     private String address;
