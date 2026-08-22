@@ -2,6 +2,7 @@ package com.gabriel.challenge.controller;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -43,9 +44,16 @@ public class CustomersController {
         @Validated
         RequestCustomers customer
     ) {
-        Customers newCustomer = new Customers(customer);
+        if(customersRepository.existsById(customer.code())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer code already in use!");
+        }
 
-        customersRepository.save(newCustomer);
+        try {
+            Customers newCustomer = new Customers(customer);
+            customersRepository.save(newCustomer);
+        } catch(DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer document already in use!");
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED)
             .body("Customer registered successfully!");
@@ -77,10 +85,14 @@ public class CustomersController {
             customerFound.setAddress(customer.address());
         }
 
-        Customers customerUpdated = customersRepository.save(customerFound);
+        try {
+            Customers customerUpdated = customersRepository.save(customerFound);
 
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(customerUpdated);
+            return ResponseEntity.status(HttpStatus.OK)
+                .body(customerUpdated);
+        } catch(DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Document already in use!");
+        }
     }
 
     @DeleteMapping("/{code}")

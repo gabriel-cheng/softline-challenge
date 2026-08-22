@@ -21,6 +21,7 @@ public class Products {
 
     private String description;
 
+    @Column(unique = true, nullable = false)
     private String bar_code;
 
     private float gross_weight;
