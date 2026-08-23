@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.gabriel.challenge.domain.products.Products;
 import com.gabriel.challenge.domain.products.ProductsRepository;
 import com.gabriel.challenge.domain.products.RequestProducts;
+import com.gabriel.challenge.util.RequiredFieldValidator;
 
 @RestController
 @RequestMapping("/products")
@@ -39,24 +40,16 @@ public class ProductsController {
     }
 
     @PostMapping
-    public ResponseEntity<String> registerNewProduct(
-        @RequestBody
-        @Validated
-        RequestProducts product
-    ) {
-        if(productsRepository.existsById(product.code())) {
+    public ResponseEntity<String> registerNewProduct(@RequestBody @Validated RequestProducts product) {
+        RequiredFieldValidator.validate(product);
+
+        if (productsRepository.existsById(product.code())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product code already in use!");
         }
 
-        try {
-            Products newProduct = new Products(product);
-            productsRepository.save(newProduct);
-        } catch(DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Product bar code already in use!");
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body("Product registered successfully!");
+        Products newProduct = new Products(product);
+        productsRepository.save(newProduct);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Product registered successfully!");
     }
 
     @PatchMapping("/{code}")
