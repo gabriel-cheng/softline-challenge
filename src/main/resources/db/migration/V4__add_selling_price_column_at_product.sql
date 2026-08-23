@@ -1,0 +1,2 @@
+ALTER TABLE products
+ADD selling_price DECIMAL(18,3) NOT NULL DEFAULT 0.000;

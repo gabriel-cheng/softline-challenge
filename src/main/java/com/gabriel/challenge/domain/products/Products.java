@@ -1,5 +1,7 @@
 package com.gabriel.challenge.domain.products;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -23,6 +25,9 @@ public class Products {
 
     @Column(unique = true, nullable = false)
     private String bar_code;
+
+    @Column(nullable = false)
+    private BigDecimal selling_price;
 
     private float gross_weight;
     
@@ -52,6 +57,14 @@ public class Products {
         this.bar_code = bar_code;
     }
 
+    public BigDecimal getSellingPrice() {
+        return this.selling_price;
+    }
+
+    public void setSellingPrice(BigDecimal selling_price) {
+        this.selling_price = selling_price;
+    }
+
     public float getGrossWeight() {
         return this.gross_weight;
     }
@@ -72,6 +85,7 @@ public class Products {
         this.code = requestProducts.code();
         this.description = requestProducts.description();
         this.bar_code = requestProducts.bar_code();
+        this.selling_price = requestProducts.selling_price();
         this.gross_weight = requestProducts.gross_weight();
         this.net_weight = requestProducts.net_weight();
     }

@@ -77,6 +77,10 @@ public class ProductsController {
             productFound.setBarCode(product.bar_code());
         }
 
+        if(product.selling_price() != null) {
+            productFound.setSellingPrice(product.selling_price());
+        }
+
         if(product.gross_weight() != null) {
             productFound.setGrossWeight(product.gross_weight());
         }
