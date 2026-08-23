@@ -28,4 +28,12 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", message));
     }
+    
+    @ExceptionHandler(RequiredFieldException.class)
+    public ResponseEntity<Map<String, String>> handleRequiredFieldException(RequiredFieldException ex) {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(Map.of("message", ex.getMessage()));
+    }
+
 }
