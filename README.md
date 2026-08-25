@@ -6,13 +6,13 @@
 
 Acesse: [https://ghcarvalho.com.br](https://ghcarvalho.com.br)
 
-## 🛢️ Database Tables Model
+## 🛢️ Modelo das tabelas do Banco de Dados
 ![Tela do sistema](./docs/images/database-model.png)
 
-## 🛣️ Route Models
+## 🛣️ Modelo das rotas
 ![Tela do sistema](./docs/images/routes.png)
 
-## 🚀 How to Run This Project
+## 🚀 Como rodar este projeto
 
 Você pode rodar o projeto de duas formas: **localmente** (Java + Maven + SQL Server instalados na sua máquina) ou via **Docker Compose** (sobe todos os serviços automaticamente, incluindo o banco de dados).
 
