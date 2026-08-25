@@ -63,7 +63,7 @@ mvn install
 mvn spring-boot:run
 ```
 
-A aplicação sobe em `http://localhost:8080`.
+A aplicação sobe em `http://localhost`.
 
 ---
 
