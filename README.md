@@ -2,6 +2,10 @@
 
 > Repositório do desafio técnico para Desenvolvedor Pleno da Soft-Line Sistemas.
 
+## 🌐 Aplicação em Produção
+
+Acesse: [https://ghcarvalho.com.br](https://ghcarvalho.com.br)
+
 ## 🛢️ Database Tables Model
 ![Tela do sistema](./docs/images/database-model.png)
 
@@ -10,9 +14,13 @@
 
 ## 🚀 How to Run This Project
 
-### 📋 Requirements
+Você pode rodar o projeto de duas formas: **localmente** (Java + Maven + SQL Server instalados na sua máquina) ou via **Docker Compose** (sobe todos os serviços automaticamente, incluindo o banco de dados).
 
-Antes de rodar o projeto, certifique-se de instalar:
+---
+
+### 🖥️ Opção 1 — Rodando localmente
+
+#### 📋 Requisitos
 
 - ☕ **Java 17+** — [Download](https://www.oracle.com/java/technologies/downloads/)
 - 📦 **Maven** — [Download](https://maven.apache.org/download.cgi)
@@ -20,7 +28,7 @@ Antes de rodar o projeto, certifique-se de instalar:
 - 🛠️ **SQL Server Management Studio (SSMS)** — [Download](https://learn.microsoft.com/en-us/ssms/install/install)
 - 💻 **Git** — [Download](https://git-scm.com/downloads)
 
-### ⚙️ Configuration
+#### ⚙️ Configuração
 
 1. Clonando o repositório:
 
@@ -32,20 +40,74 @@ cd softline-challenge
 2. Criando o banco
 > Se ainda não criou, crie o Banco de Dados da aplicação no SQL Server.
 
-3. Configurando o .env
-> - Copie e cole o arquivo ```.env.example``` na raíz do projeto <br>
-> - Nomeie o arquivo copiado para ```.env``` <br>
-> - Informe a ```porta de conexão```, o ```nome```, o ```user``` e o ```password``` do banco da aplicação.
+3. Configurando o `.env`
+> - Copie e cole o arquivo `.env.example` na raíz do projeto <br>
+> - Nomeie o arquivo copiado para `.env` <br>
+> - Preencha as variáveis abaixo com os dados da sua instância local do SQL Server:
 
-4. Configurando o settings.xml
-> - Copie e cole o arquivo ```settings.xml.example``` na raíz do projeto <br>
-> - Nomeie o arquivo copiado para ```settings.xml``` <br>
-> - Informe o ```DATABASE_PORT```, o ```DATABASE_PASSWORD```, e o ```DATABASE_USER``` do banco da aplicação.
+```env
+DATABASE_URI=jdbc:sqlserver://localhost:1433;databaseName=softlineChallenge;encrypt=true;trustServerCertificate=true;
+DATABASE_USERNAME=sa
+DATABASE_PASSWORD=SuaSenhaAqui
+JWT_SECRET=SeuSegredoAqui
+```
+
+4. Instalando as dependências
+> - Na raíz do projeto, rode o seguinte comando e aguarde a instalação das dependências:
+```bash
+mvn install
+```
 
 5. Rodando o projeto
 ```bash
 mvn spring-boot:run
 ```
+
+A aplicação sobe em `http://localhost:8080`.
+
+---
+
+### 🐳 Opção 2 — Rodando com Docker Compose
+
+#### 📋 Requisitos
+
+- 🐳 **Docker** e **Docker Compose** — [Download](https://www.docker.com/products/docker-desktop/)
+- 💻 **Git** — [Download](https://git-scm.com/downloads)
+
+#### ⚙️ Configuração
+
+1. Clonando o repositório:
+
+```bash
+git clone http://github.com/gabriel-cheng/softline-challenge
+cd softline-challenge
+```
+
+2. Suba todos os serviços (SQL Server, backend, frontend e proxy Nginx):
+
+```bash
+docker compose up --build
+```
+
+O Docker Compose já cria o container do SQL Server, aguarda ele ficar saudável (healthcheck) e só então inicia o backend, evitando erros de conexão prematura.
+
+3. Acesse a aplicação em `http://localhost`.
+
+> As variáveis de ambiente (`DATABASE_URI`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`) já vêm configuradas no `docker-compose.yml` para o ambiente local. Ajuste os valores diretamente nesse arquivo se precisar.
+
+---
+
+### ☸️ Deploy em Produção (Kubernetes)
+
+Em produção, a aplicação roda em um cluster **k3s**, com:
+
+- **Traefik** como Ingress Controller, roteando `/api` para o backend e `/` para o frontend
+- **cert-manager** gerenciando certificados TLS via Let's Encrypt
+- Variáveis de ambiente injetadas via `Secret` (`softline-secrets`) e lidas em runtime pelo pod
+
+Os manifests (`Deployment`, `Service`, `Ingress`, `Middleware`) estão disponíveis na pasta `k8s/` do repositório.
+
+---
 
 ## 🔑 Endpoints
 
@@ -97,6 +159,7 @@ mvn spring-boot:run
     "code": 10,
     "description": "Lorem ipsum dolor sit amet.",
     "bar_code": "78949007000155",
+    "selling_price": 50.00,
     "gross_weight": 13.0,
     "net_weight": 12.05
 }
@@ -107,6 +170,7 @@ mvn spring-boot:run
 {
     "description": "Lorem ipsum dolor sit amet.",
     "bar_code": "78949007000155",
+    "selling_price": 50.00,
     "gross_weight": 13.0,
     "net_weight": 12.05
 }
