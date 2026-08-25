@@ -29,9 +29,9 @@ public class Products {
     @Column(nullable = false)
     private BigDecimal selling_price;
 
-    private float gross_weight;
+    private BigDecimal gross_weight;
     
-    private float net_weight;
+    private BigDecimal net_weight;
 
     public int getCode() {
         return this.code;
@@ -65,19 +65,19 @@ public class Products {
         this.selling_price = selling_price;
     }
 
-    public float getGrossWeight() {
+    public BigDecimal getGrossWeight() {
         return this.gross_weight;
     }
 
-    public void setGrossWeight(float gross_weight) {
+    public void setGrossWeight(BigDecimal gross_weight) {
         this.gross_weight = gross_weight;
     }
 
-    public float getNetWeight() {
+    public BigDecimal getNetWeight() {
         return this.net_weight;
     }
 
-    public void setNetWeight(float net_weight) {
+    public void setNetWeight(BigDecimal net_weight) {
         this.net_weight = net_weight;
     }
 

@@ -9,6 +9,6 @@ public record RequestProducts(
     @Size(max = 60, message = "muste be at most 60 characters") String description,
     @Size(max = 14, message = "muste be at most 14 characters") String bar_code,
     BigDecimal selling_price,
-    Float gross_weight,
-    Float net_weight
+    BigDecimal gross_weight,
+    BigDecimal net_weight
 ) { }
