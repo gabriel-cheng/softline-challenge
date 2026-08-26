@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "SqlServer123!"
+      MSSQL_SA_PASSWORD: "${DATABASE_PASSWORD}"
       MSSQL_PID: "Developer"
       TZ: "America/Sao_Paulo"
     ports:
@@ -20,9 +20,24 @@ services:
       retries: 5
       start_period: 20s
 
+  db-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: db-init
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - ./src/main/resources/db/scripts/init-db.sql:/init-db.sql:ro
+    environment:
+      MSSQL_SA_PASSWORD: "${DATABASE_PASSWORD}"
+    entrypoint: >
+      /bin/bash -c "
+      /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -i /init-db.sql
+      "
+
   frontend:
     build:
-      context: ./frontend
+      context: ./softline-challenge-frontend
       args:
         VITE_API_URL: "/api"
     restart: unless-stopped
@@ -39,12 +54,14 @@ services:
       - "8080"
     environment:
       DATABASE_URI: "jdbc:sqlserver://sqlserver:1433;databaseName=softlineChallenge;encrypt=true;trustServerCertificate=true;"
-      DATABASE_USERNAME: "YOUR_DATABASE_USERNAME"
-      DATABASE_PASSWORD: "YOUR_DATABASE_PASSWORD"
-      JWT_SECRET: "YOUR_JWT_SECRET"
+      DATABASE_USERNAME: "${DATABASE_USERNAME}"
+      DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
+      JWT_SECRET: "${JWT_SECRET}"
     depends_on:
       sqlserver:
         condition: service_healthy
+      db-init:
+        condition: service_completed_successfully
 
   proxy:
     image: nginx:1.27-alpine

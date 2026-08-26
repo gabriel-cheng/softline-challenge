@@ -34,8 +34,8 @@ build/
 
 ### files ###
 .env
-docker-compose.yml
 settings.xml
 
 ### Folders ###
 frontend/
+softline-challenge-frontend/

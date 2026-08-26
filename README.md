@@ -38,15 +38,15 @@ cd softline-challenge
 ```
 
 2. Criando o banco
-> Se ainda não criou, crie o Banco de Dados da aplicação no SQL Server.
+
+O script `src/main/resources/db/scripts/init-db.sql` cria o banco `softlineChallenge` automaticamente (só cria se ele ainda não existir). Abra esse arquivo no SSMS, conecte na sua instância local do SQL Server e execute o script — não é necessário criar o banco manualmente antes.
 
 3. Configurando o `.env`
-> - Copie e cole o arquivo `.env.example` na raíz do projeto <br>
-> - Nomeie o arquivo copiado para `.env` <br>
-> - Preencha as variáveis abaixo com os dados da sua instância local do SQL Server:
+> - Copie o arquivo `.env.example` da raiz do projeto <br>
+> - Renomeie a cópia para `.env` <br>
+> - Preencha as variáveis abaixo (usadas pelo `docker-compose.yml` para configurar os containers):
 
 ```env
-DATABASE_URI=jdbc:sqlserver://localhost:1433;databaseName=softlineChallenge;encrypt=true;trustServerCertificate=true;
 DATABASE_USERNAME=sa
 DATABASE_PASSWORD=SuaSenhaAqui
 JWT_SECRET=SeuSegredoAqui
@@ -83,17 +83,33 @@ git clone http://github.com/gabriel-cheng/softline-challenge
 cd softline-challenge
 ```
 
-2. Suba todos os serviços (SQL Server, backend, frontend e proxy Nginx):
+2. Clone o repositório do frontend na raíz do backend:<br>
+⚠️ ATENÇÃO: O `docker-compose.yml` builda tanto o backend quanto o frontend a partir de código-fonte local — ele **não baixa o frontend automaticamente**. Antes de rodar `docker compose up`, clone o repositório do frontend na **raiz deste projeto**.
+
+```bash
+git clone http://github.com/gabriel-cheng/softline-challenge-frontend
+```
+
+3. Configurando o `.env`
+> - Copie o arquivo `.env.example` da raiz do projeto <br>
+> - Renomeie a cópia para `.env` <br>
+> - Preencha as variáveis abaixo (usadas pelo `docker-compose.yml` para configurar os containers):
+
+```env
+DATABASE_USERNAME=sa
+DATABASE_PASSWORD=SuaSenhaAqui
+JWT_SECRET=SeuSegredoAqui
+```
+
+4. Suba todos os serviços (SQL Server, criação do banco, backend, frontend e proxy Nginx):
 
 ```bash
 docker compose up --build
 ```
 
-O Docker Compose já cria o container do SQL Server, aguarda ele ficar saudável (healthcheck) e só então inicia o backend, evitando erros de conexão prematura.
+A ordem de inicialização é automática: o SQL Server sobe e aguarda passar no healthcheck; em seguida, o serviço `db-init` roda o script `init-db.sql` e cria o banco `softlineChallenge` (caso ainda não exista); só depois disso o backend inicia — evitando tanto erros de conexão prematura quanto a necessidade de criar o banco manualmente.
 
-3. Acesse a aplicação em `http://localhost`.
-
-> As variáveis de ambiente (`DATABASE_URI`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`) já vêm configuradas no `docker-compose.yml` para o ambiente local. Ajuste os valores diretamente nesse arquivo se precisar.
+5. Acesse a aplicação em `http://localhost`.
 
 ---
 
