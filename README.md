@@ -7,6 +7,7 @@
 Acesse: [https://ghcarvalho.com.br](https://ghcarvalho.com.br)
 
 ## 🛢️ Modelo das tabelas do Banco de Dados
+⚠️ ATENÇÃO: Todos os scripts utilizados para manipular o banco de dados desta aplicação serão encontrados nas migrations e scripts, no diretório `src\main\resources\db\`. <br>
 ![Tela do sistema](./docs/images/database-model.png)
 
 ## 🛣️ Modelo das rotas
@@ -44,7 +45,7 @@ O script `src/main/resources/db/scripts/init-db.sql` cria o banco `softlineChall
 3. Configurando o `.env`
 > - Copie o arquivo `.env.example` da raiz do projeto <br>
 > - Renomeie a cópia para `.env` <br>
-> - Preencha as variáveis abaixo (usadas pelo `docker-compose.yml` para configurar os containers):
+> - Preencha as variáveis abaixo:
 
 ```env
 DATABASE_USERNAME=sa
@@ -63,7 +64,7 @@ mvn install
 mvn spring-boot:run
 ```
 
-A aplicação sobe em `http://localhost`.
+A aplicação sobe em `http://localhost:8080`.
 
 ---
 
