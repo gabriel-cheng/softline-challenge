@@ -90,7 +90,7 @@ cd softline-challenge
 git clone http://github.com/gabriel-cheng/softline-challenge-frontend
 ```
 
-3. Configurando o `.env`
+3. Configurando o `.env` do backend
 > - Copie o arquivo `.env.example` da raiz do projeto <br>
 > - Renomeie a cópia para `.env` <br>
 > - Preencha as variáveis abaixo (usadas pelo `docker-compose.yml` para configurar os containers):
@@ -101,7 +101,12 @@ DATABASE_PASSWORD=SuaSenhaAqui
 JWT_SECRET=SeuSegredoAqui
 ```
 
-4. Suba todos os serviços (SQL Server, criação do banco, backend, frontend e proxy Nginx):
+4. Configurando o `.env` do frontend
+> - Copie o arquivo `.env.example` da raiz do projeto <br>
+> - Renomeie a cópia para `.env` <br>
+> - Não precisa alterar nenhuma variável, a URL para proxy do VITE já vem pré configurada do example.
+
+5. Suba todos os serviços (SQL Server, criação do banco, backend, frontend e proxy Nginx):
 
 ```bash
 docker compose up --build
@@ -109,7 +114,7 @@ docker compose up --build
 
 A ordem de inicialização é automática: o SQL Server sobe e aguarda passar no healthcheck; em seguida, o serviço `db-init` roda o script `init-db.sql` e cria o banco `softlineChallenge` (caso ainda não exista); só depois disso o backend inicia — evitando tanto erros de conexão prematura quanto a necessidade de criar o banco manualmente.
 
-5. Acesse a aplicação em `http://localhost`.
+6. Acesse a aplicação em `http://localhost`.
 
 ---
 
